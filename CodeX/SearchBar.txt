@@ -1,0 +1,228 @@
+0:45
+
+//Add Library
+
+compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
+
+
+
+2:33
+
+<android.support.v7.widget.Toolbar
+
+android:id="@+id/toolbar"
+android:layout_width="match_parent"
+android:layout_height="?attr/actionBarSize"
+android:background="@color/colorPrimary"
+/>
+
+
+<com.miguelcatalan.materialsearchview.MaterialSearchView
+android:id="@+id/search_view"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+
+/>
+
+
+
+
+
+4:00
+
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+<item 
+ android:id="@+id/action_search"
+ android:orderInCategory="100"
+ android:title = "Search..."
+ app:showAsAction = "always" 
+ android:icon = "@drawable/ic_action_action_search"
+/ >
+
+
+
+
+4:54
+
+Search ==> ic_action_search ==> search icon
+Click OK
+
+
+
+
+6:37
+
+Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+setSupportActionBar(toolbar);
+getSupportActionBar().setTitle("Material Search");
+toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+
+MaterialSearchView search view = (MaterialSearchView)findViewById(R.id.search_view);
+
+
+
+
+7:06
+
+"Dark" ==> "No" ActionBar
+
+
+
+
+8:18
+
+@Override
+
+public boolean onCreateOptionMenu(Menu menu)
+{
+ getMenuInflater().inflate(R.menu.menu_item,menu);
+
+ MenuItem item = menu.findItem(R.id.action_search);
+searchView.setMenuItem(item);
+return true;
+}
+
+
+
+
+10:37
+
+
+app:searchBackground="@color/colorPrimary"
+app:searchSuggestionBackground="@color/colorPrimary"
+app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
+app:searchBackIcon="@drawable/ic_action_navigation_arrow_back_inverted"
+app:searchSuggestionIcon="@drawable/ic_suggestion"
+
+android:textColor="#FFFFFF"
+android:textColorHint="#FFFFFF"
+
+/>
+
+
+
+
+12:42
+
+<List View
+
+android:id="@+id/1stView"
+android:layout_height="fill_Parent"
+android:layout_width="match_Parent"
+android:layout_below="@+id/toolbar"
+android:divider="#806326"
+android:dividerHeight="1dp"
+
+
+
+
+
+13:09
+
+ListView 1stView;
+
+String[] 1stSource = {
+
+"Harry",
+"Hermione",
+"Voldemort",
+"Ron",
+"Joey",
+"Chandler",
+"Ross",
+"Rachael",
+"Monica",
+'Pheobe",
+};
+
+
+
+
+
+13:30
+
+1stView=(ListView)findViewById(R.id.1stView);
+
+ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,1stSource);
+1stView.setAdapter(adapter);
+
+
+
+
+15:48
+
+searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener()
+{
+@Override
+public void onSearchViewShown()
+{
+}
+
+
+@Override
+
+public void onSearchViewClose()
+{
+//if closed Search View, 1stView will return default
+
+1stView=(ListView)findViewById(R.id.1stView);
+
+ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,1stSource);
+1stView.setAdapter(adapter);
+
+
+
+
+
+
+
+
+
+16:25
+
+searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener()
+
+{
+
+@Override
+
+public boolean onQueryTextSubmit(String query)
+{
+return false;
+}
+
+
+@override
+
+public boolean onQueryTextChange(String newText)
+{
+ if(newText != null && !newText.isEmpty() )
+{
+ List<String> 1stFound = new ArrayList<String>();
+
+for(String item:1st Source)
+{
+if(item.contains(newText))
+1stFound.add(item);
+}
+ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,1stFound);
+1stView.setAdapter(adapter);
+
+}
+
+else
+{
+
+//is search text is null then return default
+
+
+ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,1stSource);
+1stView.setAdapter(adapter);
+
+}
+
+return true;
